@@ -50,7 +50,7 @@ jobs:
       continue-on-error: false
       with:
         # Name of the Azure Function App
-        app-name: ${{ env.funcnode }}
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
         # Path to package or folder. *.zip or a folder to deploy
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
         # Function app slot to be deploy to
