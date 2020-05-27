@@ -40,6 +40,7 @@ jobs:
         npm install
         npm run build --if-present
     - name: Install Test dependencies and run tests
+      continue-on-error: false
       run: |
         cd Tests
         npm install
@@ -47,6 +48,7 @@ jobs:
     # login to azure
     - name: Login to Azure
       uses: azure/login@v1
+      continue-on-error: false
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     # Deploy Arm template
@@ -55,7 +57,7 @@ jobs:
       continue-on-error: false
       with:
         inlineScript: |
-          az deployment group create --resource-group fasnodestarterrg --template-file ./ArmTemplates/windows-functionapp-template.json      
+        az deployment group create --resource-group fasnodestarterrg --template-file ./ArmTemplates/windows-functionapp-template.json --parameters functionAppName='fasnodestarter' storageAccountName='fasnodestartersg' hostingPlanName='ConsumptionPlan' appInsightLocation='centralUs'  
     # Deploy function app
     - name: Azure Functions Action
       uses: Azure/functions-action@v1
