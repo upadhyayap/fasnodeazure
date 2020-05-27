@@ -45,15 +45,15 @@ jobs:
         npm install
         npm test 
     - name: Azure Functions Action
-      uses: Azure/functions-action@v1.1.4
+      uses: Azure/functions-action@v1
       id: fasnodejs
       continue-on-error: false
       with:
         # Name of the Azure Function App
-        app-name: ${{ env.funcnode }}
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
         # Path to package or folder. *.zip or a folder to deploy
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
         # Function app slot to be deploy to
-        slot-name: 'optonal'
+        #slot-name: 'optonal'
         # Publish profile (*.publishsettings) file contents with web deploy secrets
         publish-profile: ${{secrets.SCM_CREDENTIALS}}
