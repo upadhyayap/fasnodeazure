@@ -1,0 +1,12 @@
+{
+    "name": "nodejs-functionapp",
+    "version": "0.0.0",
+    "description": "nodejs-functionapp",
+    "author": {
+      "name": "azure-devops-starter"
+    },
+    "dependencies": {
+    },
+    "scripts": {
+    }
+  }
