@@ -20,7 +20,7 @@ on:
     - releases
 
 env:
-  AZURE_WEBAPP_NAME: funcnodestarteranand    # set this to your application's name
+  AZURE_WEBAPP_NAME: fasnodestarter    # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: 'Application'      # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '8.11.1'                # set this to the node version to use
 
@@ -43,7 +43,20 @@ jobs:
       run: |
         cd Tests
         npm install
-        npm test 
+        npm test
+    # login to azure
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    # Deploy Arm template
+    - name: Deploy ARM Template
+      uses: azure/CLI@v1
+      continue-on-error: false
+      with:
+        inlineScript: |
+          az deployment group create --resource-group fasnodestarterrg --template-file ./ArmTemplates/windows-functionapp-template.json      
+    # Deploy function app
     - name: Azure Functions Action
       uses: Azure/functions-action@v1
       id: fasnodejs
@@ -56,4 +69,4 @@ jobs:
         # Function app slot to be deploy to
         #slot-name: 'optonal'
         # Publish profile (*.publishsettings) file contents with web deploy secrets
-        publish-profile: ${{secrets.SCM_CREDENTIALS}}
+        #publish-profile: ${{secrets.SCM_CREDENTIALS}}
