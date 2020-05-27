@@ -16,7 +16,7 @@ name: Build and deploy to azure functions
 on:
   push:
     branches:
-    # - master
+    - master
     - releases
 
 env:
