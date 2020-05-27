@@ -10,7 +10,7 @@ module.exports = async function (context, req) {
     else {
         context.res = {
             status: 200,
-            body: "Hello there! Welcome to Azure Functions! from Github CI "
+            body: "Hello there! Welcome to Azure Functions! from Github CI"
         };
     }
 };
