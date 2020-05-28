@@ -61,7 +61,8 @@ jobs:
       continue-on-error: false
       with:
         inlineScript: |
-          az deployment group create --resource-group fasnodestarterrg --template-file ./ArmTemplates/windows-functionapp-template.json --parameters functionAppName='fasnodestarter' storageAccountName='fasnodestartersg' hostingPlanName='ConsumptionPlan' appInsightLocation='centralUs' 
+          az group create --name fasnodestarterrg --location centralus
+          az deployment group create --resource-group fasnodestarterrg --template-file ./ArmTemplates/windows-functionapp-template.json --parameters functionAppName='fasnodestarter' storageAccountName='fasnodestartersg' hostingPlanName='ConsumptionPlan' appInsightLocation='centralus' 
     # Deploy function app
     - name: Azure Functions Action
       uses: Azure/functions-action@v1
