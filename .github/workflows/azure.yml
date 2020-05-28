@@ -11,7 +11,7 @@ env:
   NODE_VERSION: '8.11.1'                # set this to the node version to use
 
 jobs:
-  build-and-deploy:
+  build and test:
     name: Build and Deploy
     runs-on: ubuntu-latest
     steps:
@@ -31,30 +31,34 @@ jobs:
         cd Tests
         npm install
         npm test
-    # login to azure
+  deploy:
+    name: Build and Run tests
+    runs-on: ubuntu-latest
+    steps:
+      # login to azure
     - name: Login to Azure
-      uses: azure/login@v1
-      continue-on-error: false
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-    # Deploy Arm template
-    - name: Deploy ARM Template
-      uses: azure/CLI@v1
-      continue-on-error: false
-      with:
-        inlineScript: |
-          az deployment group create --resource-group fasnodestarterrg --template-file ./ArmTemplates/windows-functionapp-template.json --parameters functionAppName='fasnodestarter' storageAccountName='fasnodestartersg' hostingPlanName='ConsumptionPlan' appInsightLocation='centralUs' 
-    # Deploy function app
-    - name: Azure Functions Action
-      uses: Azure/functions-action@v1
-      id: fasnodejs
-      continue-on-error: false
-      with:
-        # Name of the Azure Function App
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        # Path to package or folder. *.zip or a folder to deploy
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-        # Function app slot to be deploy to
-        #slot-name: 'optonal'
-        # Publish profile (*.publishsettings) file contents with web deploy secrets
-        #publish-profile: ${{secrets.SCM_CREDENTIALS}}
+    uses: azure/login@v1
+    continue-on-error: false
+    with:
+      creds: ${{ secrets.AZURE_CREDENTIALS }}
+  # Deploy Arm template
+  - name: Deploy ARM Template
+    uses: azure/CLI@v1
+    continue-on-error: false
+    with:
+      inlineScript: |
+        az deployment group create --resource-group fasnodestarterrg --template-file ./ArmTemplates/windows-functionapp-template.json --parameters functionAppName='fasnodestarter' storageAccountName='fasnodestartersg' hostingPlanName='ConsumptionPlan' appInsightLocation='centralUs' 
+  # Deploy function app
+  - name: Azure Functions Action
+    uses: Azure/functions-action@v1
+    id: fasnodejs
+    continue-on-error: false
+    with:
+      # Name of the Azure Function App
+      app-name: ${{ env.AZURE_WEBAPP_NAME }}
+      # Path to package or folder. *.zip or a folder to deploy
+      package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      # Function app slot to be deploy to
+      #slot-name: 'optonal'
+      # Publish profile (*.publishsettings) file contents with web deploy secrets
+      #publish-profile: ${{secrets.SCM_CREDENTIALS}}
