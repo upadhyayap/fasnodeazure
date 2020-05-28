@@ -72,7 +72,3 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         # Path to package or folder. *.zip or a folder to deploy
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-        # Function app slot to be deploy to
-        #slot-name: 'optonal'
-        # Publish profile (*.publishsettings) file contents with web deploy secrets
-        #publish-profile: ${{secrets.SCM_CREDENTIALS}}
