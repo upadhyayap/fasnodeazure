@@ -1,5 +1,5 @@
 GET http://localhost:7071/api/Function1?name=anand HTTP/1.1
 
-### 
+###
 
 GET https://fasnodestarter.azurewebsites.net/api/Function1?name=anandremote HTTP/1.1

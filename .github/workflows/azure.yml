@@ -8,6 +8,12 @@ env:
   AZURE_WEBAPP_NAME: fasnodestarter    # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: 'Application'      # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '8.11.1'                # set this to the node version to use
+  RESOURCEGROUPNAME: 'fasnodestarterrg'
+  LOCATION: 'centralus'
+  FUNCTIONAPPNAME: 'fasnodestarter'
+  STORAGEACCOUNTNAME: 'fasnodestartersg'
+  HOSTINGPLANNAME: 'ConsumptionPlan'
+  APPINSIGHTLOCATION: 'centralus'
 
 jobs:
   build-and-test:
@@ -61,8 +67,8 @@ jobs:
       continue-on-error: false
       with:
         inlineScript: |
-          az group create --name fasnodestarterrg --location centralus
-          az deployment group create --resource-group fasnodestarterrg --template-file ./ArmTemplates/windows-functionapp-template.json --parameters functionAppName='fasnodestarter' storageAccountName='fasnodestartersg' hostingPlanName='ConsumptionPlan' appInsightLocation='centralus' 
+          az group create --name ${{env.RESOURCEGROUPNAME}} --location ${{env.LOCATION}}
+          az deployment group create --resource-group ${{env.RESOURCEGROUPNAME}} --template-file ./ArmTemplates/windows-functionapp-template.json --parameters functionAppName='${{env.FUNCTIONAPPNAME}}' storageAccountName='${{env.STORAGEACCOUNTNAME}}' hostingPlanName='${{env.HOSTINGPLANNAME}}' appInsightLocation='${{env.APPINSIGHTLOCATION}}' 
     # Deploy function app
     - name: Azure Functions Action
       uses: Azure/functions-action@v1
